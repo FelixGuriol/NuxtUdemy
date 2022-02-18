@@ -10,6 +10,36 @@ export default {
   components:{
     PostList
   },
+  asyncData(context){//callback le indica a la pagina q ya obtubo los datos
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          loadedPosts: [
+            {
+              id: '1', 
+              title: 'First Post', 
+              previewText: 'This is our first post!',
+              thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
+            },
+            {
+              id: '2', 
+              title: 'Second Post', 
+              previewText: 'This is our second post!',
+              thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
+            }
+          ]
+        });
+      },1500)
+    })
+    .then(data => {
+      return data;
+    })
+    .catch(e =>{
+      context.error(new Error());
+    })
+    
+  },
+  /*
   data(){
     return{
       loadedPosts:[
@@ -28,6 +58,7 @@ export default {
       ]
     }
   },
+  */
 }
 </script>
 
