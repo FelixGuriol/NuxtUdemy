@@ -12,6 +12,7 @@ import axios from 'axios'//se tiene q instalar npm install --save axios
 import AdminPostForm from '@/components/Admin/AdminPostForm';
 export default {
     layout:'admin',
+    middleware: ['check-auth','auth'],
     components:{
         AdminPostForm
     },

@@ -21,6 +21,9 @@ const createStore = () =>{
             },
             setToken(state,token){
                 state.token=token;
+            },
+            clearToken(state){
+                state.token=null;
             }
         },
         actions: {
@@ -39,7 +42,7 @@ const createStore = () =>{
             addPost(vuexContext,post){
                 const createdPost ={...post, updatedDate: new Date()};
                 return this.$axios
-                    .$post('/posts.json',createdPost)//mandar los datos firebase
+                    .$post('/posts.json?auth='+vuexContext.state.token,createdPost)//mandar los datos firebase junto con el token
                     .then(data => {
                         vuexContext.commit('addPost',{...createdPost, id: data.name})//el name de bota el id del registro en firebase
                     })
@@ -48,7 +51,7 @@ const createStore = () =>{
             editPost(vuexContext,editedPost){
                 return this.$axios.$put('/posts/'+
                     editedPost.id+//se usa route pq el componente y la vista ya estan cargadas
-                    '.json',editedPost)
+                    '.json?auth='+vuexContext.state.token,editedPost)
                 .then(res => {
                     vuexContext.commit('editPost',editedPost)
                 })
@@ -72,13 +75,34 @@ const createStore = () =>{
                     })
                     .then(result => {
                         vuexContext.commit('setToken',result.idToken);//es el atributo q almacena el token
+                        localStorage.setItem('token',result.idToken);
+                        localStorage.setItem('tokenExpiration',new Date().getTime()+result.expiresIn*1000);//expiresIn en segundos
+                        vuexContext.dispatch('setLogoutTimer',result.expiresIn*1000);
                     })
                     .catch(e => console.log(e));
+            },
+            setLogoutTimer(vuexContext,duration) {
+                setTimeout(() =>{
+                    vuexContext.commit('clearToken')
+                },duration)
+            },
+            initAuth(vuexContext){
+                const token = localStorage.getItem('token');
+                const expirationDate = localStorage.getItem('tokenExpiration');
+
+                if(new Date().getTime() > +expirationDate || !token){
+                    return;
+                }
+                vuexContext.dispatch('setLogoutTimer',expirationDate - new Date().getTime());
+                vuexContext.commit('setToken',token)
             }
         },
         getters: {
             loadedPosts(state){
                 return state.loadedPosts
+            },
+            isAuthenticated(state){
+                return state.token != null;
             }
         }
     })
