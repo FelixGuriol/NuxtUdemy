@@ -1,4 +1,6 @@
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import axios from 'axios';
+
 const createStore = () =>{
     return new Vuex.Store({
         state:{
@@ -11,28 +13,18 @@ const createStore = () =>{
         },
         actions: {
             nuxtServerInit(vuexContext,context){//se corre automaticamente
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        vuexContext.commit('setPosts',[//llena los datos 
-                            {
-                                id: '1', 
-                                title: 'First Post', 
-                                previewText: 'This is our first post!',
-                                thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
-                            },
-                            {
-                                id: '2', 
-                                title: 'Second Post', 
-                                previewText: 'This is our second post!',
-                                thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
-                            }
-                        ]);
-                      resolve();
-                    },1000);
-                });
+               return axios.get('https://nuxt-blog-d3290-default-rtdb.firebaseio.com/posts.json')
+                .then(res => {
+                    const postsArray = [];
+                    for(const key in res.data){
+                        postsArray.push({...res.data[key], id:key})//los ... significa q saca toda la estructura y le agrega el id:key
+                    }
+                    vuexContext.commit('setPosts',postsArray)
+                })
+                .catch(e => context.error(e));
             },
             setPosts(vuexContext,posts){
-                vuexContext.commit('setPosts',posts)
+                vuexContext.commit('setPosts',posts);
             }
         },
         getters: {

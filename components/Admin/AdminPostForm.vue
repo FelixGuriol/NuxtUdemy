@@ -9,6 +9,10 @@
         <AppControlInput
                 control-type="textarea"
                 v-model="editedPost.content">Content</AppControlInput>
+
+        <AppControlInput
+                control-type="textarea"
+                v-model="editedPost.previewText">Preview Text</AppControlInput>
                 
         <AppButton type="submit">Save</AppButton>
                 
@@ -42,15 +46,19 @@ export default {
                 author:'',
                 title:'',
                 thumbnailLink:'',
-                content:''
+                content:'',
+                previewText:''
             }
         }
     },
     methods:{
         onSave(){
-            console.log(this.editedPost);
+            //Save the post
+            //console.log(this.editedPost);
+            this.$emit('submit',this.editedPost)
         },
         onCancel(){
+            //Navigate back
             this.$router.push('/admin');
         }
     }
