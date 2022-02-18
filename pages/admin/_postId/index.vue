@@ -8,11 +8,23 @@
 
 <script>
 import AdminPostForm from '@/components/Admin/AdminPostForm';
+import axios from 'axios'
 export default {
     layout:'admin',
     components:{
         AdminPostForm
     },
+    asyncData(context){
+        //console.log(context.params)
+        return axios.get('https://nuxt-blog-d3290-default-rtdb.firebaseio.com/posts/'+context.params.postId+'.json')
+        .then(res => {
+            return {
+                loadedPost: res.data
+            }
+        })
+        .catch(e => context.error(e))
+    }
+    /*
     data(){
         return{
             loadedPost:{
@@ -23,6 +35,7 @@ export default {
             }
         }
     }
+    */
 }
 </script>
 

@@ -22,6 +22,9 @@ export default {
   asyncData(context){
     return axios.get('https://nuxt-blog-d3290-default-rtdb.firebaseio.com/posts/'+context.params.id+'.json')
       .then(res => {
+        if(res.data===null){// el === es para el tipo de dato
+          throw new Error()
+        }
         return {
           loadedPost: res.data
         }
