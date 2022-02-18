@@ -1,18 +1,41 @@
 <template>
     <div class="single-post-page">
         <section class="post">
-            <h1 class="post-title">Title of the post</h1>
+            <h1 class="post-title">{{loadedPost.title}}</h1>
             <div class="posts-details">
-                <div class="post-detail">Last updated on XXX</div>
-                <div class="post-detail">Written by NAME</div>
+                <div class="post-detail">Last updated on {{loadedPost.updatedDate}}</div>
+                <div class="post-detail">Written by {{loadedPost.author}}</div>
             </div>
-            <p class="post-content">Content of the post</p>
+            <p class="post-content">{{loadedPost.content}}</p>
         </section>
         <section class="post-feedback">
             <p>Let me know what you think about the post, send a mail to <a href="mailto:feedback@gmail.com">feedback@gmail.com</a>.</p>
         </section>
     </div>
 </template>
+
+<script>
+export default {
+asyncData(context,callback){
+  setTimeout(()=>{
+    callback(null,{
+      loadedPost:
+        {
+          id: '1', 
+          title: 'First Post (ID: '+context.route.params.id+')', //es como el $route.params.id pero para async
+          previewText: 'This is our first post!',
+          author: 'Maximilian',
+          updatedDate: new Date(),
+          content: 'Algo en español no hace mal mano',
+          thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
+        }
+    });
+  },1000)
+}
+
+
+}
+</script>
 
 <style>
 .single-post-page {
