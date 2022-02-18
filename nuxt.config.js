@@ -58,10 +58,15 @@ export default {//esta configurado por defecto en modo: 'Universal', q es que qu
   },
 
   env:{//crea una ruta q se puede acceder en cualquier parte del proyecto
-    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-d3290-default-rtdb.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-d3290-default-rtdb.firebaseio.com',
+    fbAPIKey: 'AIzaSyCuy2jfftTWtvztKpT9qnnvUvewSHQtOXY'
   },
   transition:{
     name: 'fade',//mismo nombre q en los estilos del assets/styles/main.css
     mode: 'out-in'
+  },
+
+  router:{
+    middleware:'log'
   }
 }
