@@ -1,7 +1,9 @@
 export default function(context){
     console.log('[Middleware] Check Auth');
-    if(process.client){
-        context.store.dispatch('initAuth');
+    if(process.client){//sea agrega esto pq solo el cliente tiene acceso al localStorage q se maneja en el store/index.js
+        context.store.dispatch('initAuth',null);
+    }else{
+        context.store.dispatch('initAuth',context.req);
     }
     
 }
