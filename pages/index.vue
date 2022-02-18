@@ -13,37 +13,10 @@ export default {
   components:{
     PostList
   },
-  asyncData(context,callback){//callback le indica a la pagina q ya obtubo los datos
-    //console.log(context)
-    setTimeout(() => {
-      callback(null,{
-        loadedPosts: [
-          {
-            id: '1', 
-            title: 'First Post', 
-            previewText: 'This is our first post!',
-            thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
-          },
-          {
-            id: '2', 
-            title: 'Second Post', 
-            previewText: 'This is our second post!',
-            thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
-          }
-        ]
-      });
-    },1500)
-  },
-  /*
-  data(){
-    return{
-      loadedPosts:[
-        
-      ]
+  computed:{
+    loadedPosts(){
+      return this.$store.getters.loadedPosts
     }
-  },*/
-  created(){//aqui llegan los datos der servidor
-   
   }
 }
 </script>
