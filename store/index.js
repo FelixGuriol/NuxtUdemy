@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-import axios from 'axios';
 
 const createStore = () =>{
     return new Vuex.Store({
@@ -22,11 +21,12 @@ const createStore = () =>{
         },
         actions: {
             nuxtServerInit(vuexContext,context){//se corre automaticamente
-               return axios.get(process.env.baseUrl + '/posts.json')
-                .then(res => {
+               return context.app.$axios
+                .$get('/posts.json')
+                .then(data => {
                     const postsArray = [];
-                    for(const key in res.data){
-                        postsArray.push({...res.data[key], id:key})//los ... significa q saca toda la estructura y le agrega el id:key
+                    for(const key in data){
+                        postsArray.push({...data[key], id:key})//los ... significa q saca toda la estructura y le agrega el id:key
                     }
                     vuexContext.commit('setPosts',postsArray)
                 })
@@ -34,15 +34,15 @@ const createStore = () =>{
             },
             addPost(vuexContext,post){
                 const createdPost ={...post, updatedDate: new Date()};
-                return axios
-                    .post('https://nuxt-blog-d3290-default-rtdb.firebaseio.com/posts.json',createdPost)//mandar los datos firebase
-                    .then(res => {
-                        vuexContext.commit('addPost',{...createdPost, id: res.data.name})//el name de bota el id del registro en firebase
+                return this.$axios
+                    .$post('/posts.json',createdPost)//mandar los datos firebase
+                    .then(data => {
+                        vuexContext.commit('addPost',{...createdPost, id: data.name})//el name de bota el id del registro en firebase
                     })
                     .catch(e => console.log(e))
             },
             editPost(vuexContext,editedPost){
-                return axios.put('https://nuxt-blog-d3290-default-rtdb.firebaseio.com/posts/'+
+                return this.$axios.$put('/posts/'+
                     editedPost.id+//se usa route pq el componente y la vista ya estan cargadas
                     '.json',editedPost)
                 .then(res => {

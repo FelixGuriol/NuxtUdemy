@@ -33,6 +33,8 @@ export default {//esta configurado por defecto en modo: 'Universal', q es que qu
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~plugins/core-components.js',//en el siguiente archivo se guardan todos los import de las vistas y componentes de manera global
+    '~plugins/date-filter.js'//aqui tmb se pueden compartir funciones js q se pueden llamar en todos lados
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,7 +46,12 @@ export default {//esta configurado por defecto en modo: 'Universal', q es que qu
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios'
   ],
+  axios:{
+    baseURL: process.env.BASE_URL || 'https://nuxt-blog-d3290-default-rtdb.firebaseio.com',
+    credentials: false
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
