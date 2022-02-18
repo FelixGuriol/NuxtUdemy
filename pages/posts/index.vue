@@ -21,7 +21,7 @@ export default {
           },
           {
             id: '2', 
-            title: 'Second Post ', 
+            title: 'Second Post', 
             previewText: 'This is our second post!',
             thumbnail:'https://ecuador.unir.net/wp-content/uploads/2019/12/mba-tech.jpg'
           }
