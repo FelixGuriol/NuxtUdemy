@@ -36,9 +36,12 @@ export default {
     })
     .catch(e =>{
       context.error(new Error());
-    })
-    
+    });
   },
+  created(){// se ejecuta despues de cargar la vista y la data
+    this.$store.dispatch('setPosts',this.loadedPosts)
+    console.log(this.$store.getters.loadedPosts)
+  }
   /*
   data(){
     return{
