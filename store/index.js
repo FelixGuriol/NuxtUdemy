@@ -109,7 +109,7 @@ const createStore = () =>{
                                     .split(';')//separa la cookie por ';'
                                     .find(c => c.trim().startsWith('expirationDate='))
                                     .split('=')[1];
-                }else{//corre en cliente
+                }else if(process.client){//corre en cliente
                     token = localStorage.getItem('token');
                     expirationDate = localStorage.getItem('tokenExpiration');
                 }

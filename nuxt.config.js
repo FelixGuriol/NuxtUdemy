@@ -68,12 +68,20 @@ export default {//esta configurado por defecto en modo: 'Universal', q es que qu
     mode: 'out-in'
   },
 
-  router:{
+  router:{//pone middleware de manera global
     middleware:'log'
   },
 
-  serverMiddleware:[
+  serverMiddleware:[//para lo del api (no vale xd)
     bodyParser.json(),
     '~/api'
-  ]
+  ],
+
+/*   generate:{
+    routes: function() {
+      return [
+        '/posts/-MwCbMKFyiX39VP2JPMz'
+      ]
+    }
+  } */
 }
