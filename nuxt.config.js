@@ -1,3 +1,5 @@
+const bodyParser = require('body-parser')
+
 export default {//esta configurado por defecto en modo: 'Universal', q es que quieres un proyecto dinamico y no estatico
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {//se agrega a cada pagina del proyecto
@@ -68,5 +70,10 @@ export default {//esta configurado por defecto en modo: 'Universal', q es que qu
 
   router:{
     middleware:'log'
-  }
+  },
+
+  serverMiddleware:[
+    bodyParser.json(),
+    '~/api'
+  ]
 }
